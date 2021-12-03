@@ -1,6 +1,6 @@
 """
 Eliminating pretrained ResNet18's top layers
-- Author: snoop2head, JoonHong-Kim
+- Author: snoop2head, JoonHong-Kim, lkm2835
 - Reference: Junghoon Kim, Jongsun Shin's baseline code provided at https://stages.ai/competitions/81/overview/requirements
 """
 

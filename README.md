@@ -86,6 +86,7 @@ Performance is compared with (1) original pretrained model and (2) Optuna NAS co
 ### Authors
 
 - [@hihellohowareyou](https://github.com/hihellohowareyou)
+- [@lkm2835](https://github.com/lkm2835)
 - [@shawnhyeonsoo](https://github.com/shawnhyeonsoo)
 - [@snoop2head](https://github.com/snoop2head)
 - [@JoonHong-Kim](https://github.com/JoonHong-Kim)

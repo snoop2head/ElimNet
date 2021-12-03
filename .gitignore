@@ -9,6 +9,8 @@ kogpt-joong-2
 KoGPT-Joong2
 Data
 data
+*.pptx
+*.pdf
 
 .python-version
 custom
