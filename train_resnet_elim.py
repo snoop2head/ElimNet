@@ -1,6 +1,6 @@
 """
 Eliminating pretrained ResNet18's top layers
-- Author: snoop2head
+- Author: snoop2head, JoonHong-Kim
 - Reference: Junghoon Kim, Jongsun Shin's baseline code provided at https://stages.ai/competitions/81/overview/requirements
 """
 
@@ -26,8 +26,6 @@ from torch.utils.model_zoo import load_url as load_state_dict_from_url
 from adamp import SGDP
 from torchvision import models
 import glob
-
-DEBUG = True
 
 
 class ElimResNet18(nn.Module):
