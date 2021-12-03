@@ -2,8 +2,8 @@
 
 **ELimNet: Eliminating Layers in a Neural Network Pretrained with Large Dataset for Downstream Task**
 
+- Removed top layers from pretrained EfficientNetB0 and ResNet18 to construct lightweight CNN model with less than 1M #params.
 - Assessed on [Trash Annotations in Context(TACO) Dataset](http://tacodataset.org/) which is sampled for 6 classes with 20,851 images.
-- Removed top layers from pretrained EfficientNetB0 and ResNet18 to construct lightweight CNN model with #params less than 1M.
 - Compared performance with lightweight models generated with Optuna's Neural Architecture Search(NAS) constituted with same convolutional blocks.
 
 ## Performance
