@@ -8,6 +8,7 @@ from src.modules.flatten import FlattenGenerator
 from src.modules.invertedresidualv2 import InvertedResidualv2, InvertedResidualv2Generator
 from src.modules.invertedresidualv3 import InvertedResidualv3, InvertedResidualv3Generator
 from src.modules.linear import Linear, LinearGenerator
+from src.modules.resnet18 import Resnet18, Resnet18Generator
 from src.modules.poolings import (
     AvgPoolGenerator,
     GlobalAvgPool,
@@ -28,6 +29,7 @@ __all__ = [
     "GlobalAvgPool",
     "InvertedResidualv2",
     "InvertedResidualv3",
+    "Resnet18",
     "BottleneckGenerator",
     "FixedConvGenerator",
     "ConvGenerator",
@@ -39,6 +41,7 @@ __all__ = [
     "GlobalAvgPoolGenerator",
     "InvertedResidualv2Generator",
     "InvertedResidualv3Generator",
+    "Resnet18Generator"
     # EfficientNet Related Modules
     "MBConv",
     "ConvBNReLU",
