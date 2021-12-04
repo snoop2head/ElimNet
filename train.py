@@ -91,7 +91,8 @@ def train(
 
 
 if __name__ == "__main__":
-    DEBUG = False
+
+    # add command line arguments for training
     parser = argparse.ArgumentParser(description="Train model.")
     parser.add_argument(
         "--model",
@@ -102,19 +103,17 @@ if __name__ == "__main__":
     parser.add_argument("--data", default="./data/taco.yaml", type=str, help="data config")
     args = parser.parse_args()
 
+    # parse the argument and load configurations
+    model_name = args.model.split("/")[-1].split(".")[0]
     model_config = read_yaml(cfg=args.model)
     data_config = read_yaml(cfg=args.data)
 
     data_config["DATA_PATH"] = os.environ.get("SM_CHANNEL_TRAIN", data_config["DATA_PATH"])
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    log_dir = os.environ.get("SM_MODEL_DIR", os.path.join("exp", "latest"))
-
-    if os.path.exists(log_dir) and DEBUG == True:
-        modified = datetime.fromtimestamp(os.path.getmtime(log_dir + "/best.pt"))
-        new_log_dir = os.path.dirname(log_dir) + "/" + modified.strftime("%Y-%m-%d_%H-%M-%S")
-        os.rename(log_dir, new_log_dir)
-
+    # get time stamp
+    time_stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    log_dir = os.environ.get("SM_MODEL_DIR", os.path.join("exp", f"{time_stamp}_{model_name}"))
     os.makedirs(log_dir, exist_ok=True)
 
     test_loss, test_f1, test_acc = train(

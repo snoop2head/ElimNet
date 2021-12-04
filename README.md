@@ -23,10 +23,10 @@ git clone https://github.com/snoop2head/elimnet
 
 ```shell
 # finetune on the dataset with pretrained model
-python train.py --model ./model/EfficientNet_B0.yaml
+python train.py --model ./model/efficientNet_B0.yaml
 
 # finetune on the dataset with ElimNet
-python train.py --model ./model/EfficientNet_B0_Elim_3.yaml
+python train.py --model ./model/efficientNet_B0_Elim_3.yaml
 ```
 
 ### Inference
@@ -124,7 +124,3 @@ Performance is compared with (1) original pretrained model and (2) Optuna NAS co
 - [@JoonHong-Kim](https://github.com/JoonHong-Kim)
 - [@jjonhwa](https://github.com/jjonhwa)
 - [@kimyeondu](https://github.com/kimyeondu)
-
-```
-
-```
