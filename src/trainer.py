@@ -9,6 +9,7 @@ import shutil
 from typing import Optional, Tuple, Union
 
 import numpy as np
+import wandb
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -124,6 +125,13 @@ class TorchTrainer:
         Returns:
             loss and accuracy
         """
+        NAME= "Experiment"
+        wandb.init(project='ElimNet', entity='elimnet', name = NAME)
+        wandb.define_metric("epoch")
+        wandb.define_metric("learning_rate", step_metric="epoch")
+        wandb.define_metric("val/*", step_metric="epoch")
+        wandb.watch(self.model)
+
         best_test_acc = -1.0
         best_test_f1 = -1.0
         best_test_loss = 1.0
@@ -164,18 +172,40 @@ class TorchTrainer:
                 gt += labels.to("cpu").tolist()
 
                 running_loss += loss.item()
+
+                train_loss = (running_loss / (batch + 1))
+                train_acc = (correct / total) * 100
+                train_f1 = f1_score(y_true=gt, y_pred=preds, labels=label_list, average='macro', zero_division=0)
+
                 pbar.update()
                 pbar.set_description(
                     f"Train: [{epoch + 1:03d}] "
-                    f"Loss: {(running_loss / (batch + 1)):.3f}, "
-                    f"Acc: {(correct / total) * 100:.2f}% "
-                    f"F1(macro): {f1_score(y_true=gt, y_pred=preds, labels=label_list, average='macro', zero_division=0):.2f}"
+                    f"Loss: {train_loss:.3f}, "
+                    f"Acc: {train_acc:.2f}% "
+                    f"F1(macro): {train_f1:.2f}"
                 )
+
+                wandb.log({
+                    "train/Loss": train_loss,
+                    "train/Acc": train_acc,
+                    "train/F1(macro)": train_f1,
+                    "learning_rate": self.optimizer.param_groups[0]['lr'],
+                    "epoch": epoch+1
+                    }, step=epoch*len(train_dataloader)+batch)
+
             pbar.close()
 
             test_loss, test_f1, test_acc = self.test(
                 model=self.model, test_dataloader=val_dataloader
             )
+
+            wandb.log({ 
+                    "val/epoch" : epoch+1,
+                    "val/Loss" : test_loss,
+                    "val/Acc": test_acc,
+                    "val/F1(macro)": test_f1,
+                    })
+
             if best_test_loss < test_loss:
                 continue
             # else
