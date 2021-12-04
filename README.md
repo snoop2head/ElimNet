@@ -16,17 +16,17 @@ git clone https://github.com/snoop2head/elimnet
 
 # fetch image dataset and unzip
 !wget -cq https://aistages-prod-server-public.s3.amazonaws.com/app/Competitions/000081/data/data.zip
-!unzip ./data.zip -d ./image_folder
+!unzip ./data.zip -d ./
 ```
 
 ### Train
 
 ```shell
 # finetune on the dataset with pretrained model
-python train.py --model ./model/efficientNet_B0.yaml
+python train.py --model ./model/efficientnet_b0.yaml
 
 # finetune on the dataset with ElimNet
-python train.py --model ./model/efficientNet_B0_Elim_3.yaml
+python train.py --model ./model/efficientnet_b0_elim_3.yaml
 ```
 
 ### Inference
