@@ -151,7 +151,6 @@ class MBConvGenerator(GeneratorAbstract):
     @property
     def out_channel(self) -> int:
         """Get out channel size."""
-        #return self._get_divisible_channel(self.args[0] * self.width_multiply)
         return self._get_divisible_channel(self.args[1] * self.width_multiply)
 
     @property
