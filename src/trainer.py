@@ -86,6 +86,7 @@ class TorchTrainer:
         optimizer: optim.Optimizer,
         scheduler,
         model_path: str,
+        model_name: str,
         scaler=None,
         device: torch.device = "cpu",
         verbose: int = 1,
@@ -102,6 +103,7 @@ class TorchTrainer:
 
         self.model = model
         self.model_path = model_path
+        self.model_name = model_name
         self.criterion = criterion
         self.optimizer = optimizer
         self.scheduler = scheduler
@@ -125,8 +127,7 @@ class TorchTrainer:
         Returns:
             loss and accuracy
         """
-        NAME= "Experiment"
-        wandb.init(project='ElimNet', entity='elimnet', name = NAME)
+        wandb.init(project="ElimNet", entity="elimnet", name=self.model_name)
         wandb.define_metric("epoch")
         wandb.define_metric("learning_rate", step_metric="epoch")
         wandb.define_metric("val/*", step_metric="epoch")
@@ -173,9 +174,11 @@ class TorchTrainer:
 
                 running_loss += loss.item()
 
-                train_loss = (running_loss / (batch + 1))
+                train_loss = running_loss / (batch + 1)
                 train_acc = (correct / total) * 100
-                train_f1 = f1_score(y_true=gt, y_pred=preds, labels=label_list, average='macro', zero_division=0)
+                train_f1 = f1_score(
+                    y_true=gt, y_pred=preds, labels=label_list, average="macro", zero_division=0
+                )
 
                 pbar.update()
                 pbar.set_description(
@@ -185,13 +188,16 @@ class TorchTrainer:
                     f"F1(macro): {train_f1:.2f}"
                 )
 
-                wandb.log({
-                    "train/Loss": train_loss,
-                    "train/Acc": train_acc,
-                    "train/F1(macro)": train_f1,
-                    "learning_rate": self.optimizer.param_groups[0]['lr'],
-                    "epoch": epoch+1
-                    }, step=epoch*len(train_dataloader)+batch)
+                wandb.log(
+                    {
+                        "train/Loss": train_loss,
+                        "train/Acc": train_acc,
+                        "train/F1(macro)": train_f1,
+                        "learning_rate": self.optimizer.param_groups[0]["lr"],
+                        "epoch": epoch + 1,
+                    },
+                    step=epoch * len(train_dataloader) + batch,
+                )
 
             pbar.close()
 
@@ -199,12 +205,14 @@ class TorchTrainer:
                 model=self.model, test_dataloader=val_dataloader
             )
 
-            wandb.log({ 
-                    "val/epoch" : epoch+1,
-                    "val/Loss" : test_loss,
+            wandb.log(
+                {
+                    "val/epoch": epoch + 1,
+                    "val/Loss": test_loss,
                     "val/Acc": test_acc,
                     "val/F1(macro)": test_f1,
-                    })
+                }
+            )
 
             if best_test_loss < test_loss:
                 continue
@@ -223,9 +231,7 @@ class TorchTrainer:
         return best_test_acc, best_test_f1
 
     @torch.no_grad()
-    def test(
-        self, model: nn.Module, test_dataloader: DataLoader
-    ) -> Tuple[float, float, float]:
+    def test(self, model: nn.Module, test_dataloader: DataLoader) -> Tuple[float, float, float]:
         """Test model.
 
         Args:
@@ -274,9 +280,7 @@ class TorchTrainer:
             )
         loss = running_loss / len(test_dataloader)
         accuracy = correct / total
-        f1 = f1_score(
-            y_true=gt, y_pred=preds, labels=label_list, average="macro", zero_division=0
-        )
+        f1 = f1_score(y_true=gt, y_pred=preds, labels=label_list, average="macro", zero_division=0)
         return loss, f1, accuracy
 
 

@@ -23,6 +23,7 @@ from src.utils.torch_utils import check_runtime, model_info
 
 def train(
     model_config: Dict[str, Any],
+    model_name: str,
     data_config: Dict[str, Any],
     log_dir: str,
     fp16: bool,
@@ -68,6 +69,7 @@ def train(
     # Create trainer
     trainer = TorchTrainer(
         model=model_instance.model,
+        model_name=model_name,
         criterion=criterion,
         optimizer=optimizer,
         scheduler=scheduler,
@@ -118,6 +120,7 @@ if __name__ == "__main__":
 
     test_loss, test_f1, test_acc = train(
         model_config=model_config,
+        model_name=model_name,
         data_config=data_config,
         log_dir=log_dir,
         fp16=data_config["FP16"],
