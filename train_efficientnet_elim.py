@@ -2,6 +2,7 @@
 Eliminating pretrained EfficientNetB0's top layers
 - Author: shawnhyeonsoo, hihellohowareyou
 - Reference: narumiruna's efficientnet-pytorch at https://github.com/narumiruna/efficientnet-pytorch
+Note: pretrained efficient is available at torchvision 0.11.0, but requires torch 1.11.0 and above. 
 """
 import argparse
 import os
@@ -128,7 +129,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train model.")
     parser.add_argument(
         "--model",
-        default="./model/EfficientNet_B0.yaml",
+        default="./model/efficientNet_b0.yaml",
         type=str,
         help="model config",
     )

@@ -20,31 +20,37 @@ from src.modules.poolings import (
 from src.modules.mbconv import *
 
 __all__ = [
-    # Resnet Related Modules
-    "ModuleGenerator",
-    "GeneratorAbstract",
-    "Bottleneck",
-    "Conv",
-    "ConvResidual",
-    "DWConv",
+    # common modules
     "Linear",
+    "Conv",
+    "DWConv",
+    "ConvResidual",
     "GlobalAvgPool",
-    "InvertedResidualv2",
-    "InvertedResidualv3",
-    "Resnet18",
-    "BottleneckGenerator",
-    "FixedConvGenerator",
-    "ConvGenerator",
-    "ConvResidualGenerator",
+    # common generators
+    "GeneratorAbstract",
     "LinearGenerator",
+    "ConvGenerator",
+    "FixedConvGenerator",
     "DWConvGenerator",
+    "ConvResidualGenerator",
+    "GlobalAvgPoolGenerator",
     "FlattenGenerator",
     "MaxPoolGenerator",
     "AvgPoolGenerator",
-    "GlobalAvgPoolGenerator",
+    "ModuleGenerator",
+    # MobileNet V2 related modules and generators
+    "InvertedResidualv2",
     "InvertedResidualv2Generator",
+    # Mobilenet V3 related modules and generators
+    "MobileNetV3",
+    "MobileNetV3Generator",
+    "InvertedResidualv3",
     "InvertedResidualv3Generator",
-    "Resnet18Generator"
+    # Resnet related modules
+    "Resnet18",
+    "Resnet18Generator",
+    "BottleneckGenerator",
+    "Bottleneck",
     # EfficientNet Related Modules
     "MBConv",
     "ConvBNReLU",
