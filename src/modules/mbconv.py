@@ -18,9 +18,8 @@ class MBConv(nn.Module):
     def __init__(
         self,
         in_planes,
-        hidden_dim,
         out_planes,
-        # expand_ratio,
+        expand_ratio,
         kernel_size,
         stride,
         reduction_ratio=4,
@@ -32,7 +31,7 @@ class MBConv(nn.Module):
         assert stride in [1, 2]
         assert kernel_size in [3, 5]
 
-        # hidden_dim = in_planes * expand_ratio
+        hidden_dim = in_planes * expand_ratio
         reduced_dim = max(1, in_planes // reduction_ratio)
 
         layers = []
@@ -80,15 +79,15 @@ class MBConv(nn.Module):
 
 class ConvBNReLU(nn.Sequential):
     def __init__(self, in_planes, out_planes, kernel_size, stride=1, groups=1):
-        #padding = self._get_padding(kernel_size, stride)
+        padding = self._get_padding(kernel_size, stride)
         super(ConvBNReLU, self).__init__(
-            #nn.ZeroPad2d(padding),
+            nn.ZeroPad2d(padding),
             nn.Conv2d(
                 in_planes,
                 out_planes,
                 kernel_size,
                 stride,
-                padding=(kernel_size - 1) // 2,
+                padding=0,
                 groups=groups,
                 bias=False,
             ),
@@ -152,6 +151,7 @@ class MBConvGenerator(GeneratorAbstract):
     @property
     def out_channel(self) -> int:
         """Get out channel size."""
+        #return self._get_divisible_channel(self.args[0] * self.width_multiply)
         return self._get_divisible_channel(self.args[1] * self.width_multiply)
 
     @property
@@ -168,15 +168,13 @@ class MBConvGenerator(GeneratorAbstract):
         module = []
         t, c, s, k = self.args  # c is equivalent as self.out_channel
         inp, oup = self.in_channel, self.out_channel
-        hidden_dim = self._get_divisible_channel(inp * t)
         for i in range(repeat):
             stride = s if i == 0 else 1
             module.append(
                 self.base_module(
                     in_planes=inp,
-                    hidden_dim=hidden_dim,
                     out_planes=oup,
-                    # expand_ratio=t,
+                    expand_ratio=t,
                     stride=stride,
                     kernel_size=k,
                 )
