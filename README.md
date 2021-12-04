@@ -6,6 +6,36 @@
 - Assessed on [Trash Annotations in Context(TACO) Dataset](http://tacodataset.org/) sampled for 6 classes with 20,851 images.
 - Compared performance with lightweight models generated with Optuna's Neural Architecture Search(NAS) constituted with same convolutional blocks.
 
+## Quickstart
+
+### Installation
+
+```shell
+# clone the repository
+git clone https://github.com/snoop2head/elimnet
+
+# fetch image dataset and unzip
+!wget -cq https://aistages-prod-server-public.s3.amazonaws.com/app/Competitions/000081/data/data.zip
+!unzip ./data.zip -d ./image_folder
+```
+
+### Train
+
+```shell
+# finetune on the dataset with pretrained model
+python train.py --model ./model/EfficientNet_B0.yaml
+
+# finetune on the dataset with ElimNet
+python train.py --model ./model/EfficientNet_B0_Elim_3.yaml
+```
+
+### Inference
+
+```shell
+# inference with the lastest ran model
+python inference.py --model_dir ./exp/latest/
+```
+
 ## Performance
 
 Performance is compared with (1) original pretrained model and (2) Optuna NAS constructed models with no pretrained weights.
@@ -72,6 +102,7 @@ Performance is compared with (1) original pretrained model and (2) Optuna NAS co
 
 ### Work in Progress
 
+- Will test the performance of replacing convolutional blocks with pretrained weights with a single convolutional layer without pretrained weights.
 - Will add ResNet18's inference time data and compare with Optuna's NAS constructed lightweight model.
 - Will test on pretrained MobileNetV3, MnasNet on torchvision with elimination based lightweight model architecture search.
 - Will be applied on other small datasets such as Fashion MNIST dataset and Plant Village dataset.
@@ -79,6 +110,7 @@ Performance is compared with (1) original pretrained model and (2) Optuna NAS co
 ### Others
 
 - "Empty" stands for model with no pretrained weights.
+- "EfficientNet B0 Elim 2" means 2 convolutional blocks have been eliminated from pretrained EfficientNet B0. Number next to "Elim" annotates how many convolutional blocks have been removed.
 - Table's performance illustrates best performance out of 100 epochs of finetuning on TACO Dataset.
 
 ---
@@ -92,3 +124,7 @@ Performance is compared with (1) original pretrained model and (2) Optuna NAS co
 - [@JoonHong-Kim](https://github.com/JoonHong-Kim)
 - [@jjonhwa](https://github.com/jjonhwa)
 - [@kimyeondu](https://github.com/kimyeondu)
+
+```
+
+```
