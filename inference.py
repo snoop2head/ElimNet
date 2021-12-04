@@ -1,6 +1,5 @@
 """
-Inference with model structure written at written in yaml at ./models/
-- Author: Junghoon Kim, Jongsun Shin
+- Reference: Inference with model structure written at written in yaml at ./models/ by Junghoon Kim, Jongsun Shin
 """
 
 import argparse
@@ -19,10 +18,7 @@ from src.augmentation.policies import simple_augment_test
 from src.model import Model
 from src.utils.common import read_yaml
 
-if torch.__version__ >= "1.8.1":
-    from torch import profiler
-else:
-    from torch.autograd import profiler
+from torch.autograd import profiler
 
 CLASSES = [
     "Metal",
