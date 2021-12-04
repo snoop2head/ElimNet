@@ -5,10 +5,9 @@ model_weights
 /wandb
 /logs
 /results
-kogpt-joong-2
-KoGPT-Joong2
 *.pptx
 *.pdf
+exp/
 
 .python-version
 custom

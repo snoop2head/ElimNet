@@ -28,9 +28,7 @@ import yaml
 import os
 
 EPOCH = 100
-DATA_PATH = (
-    "../data"  # type your data path here that contains test, train and val directories
-)
+DATA_PATH = "../data"  # type your data path here that contains test, train and val directories
 RESULT_MODEL_PATH = "./result_model.pt"  # result model will be saved in this path
 
 
@@ -74,28 +72,20 @@ def search_model(trial: optuna.trial.Trial) -> List[Any]:
             m_stride = 2
 
         if block == "Conv":
-            activation = trial.suggest_categorical(
-                f"m{i+1}/activation", ["ReLU", "Hardswish"]
-            )
+            activation = trial.suggest_categorical(f"m{i+1}/activation", ["ReLU", "Hardswish"])
             # Conv args: [out_channel, kernel_size, stride, padding, groups, activation]
             args = [out_channel, 3, m_stride, None, 1, activation]
         elif block == "DWConv":
-            activation = trial.suggest_categorical(
-                f"m{i+1}/activation", ["ReLU", "Hardswish"]
-            )
+            activation = trial.suggest_categorical(f"m{i+1}/activation", ["ReLU", "Hardswish"])
             # DWConv args: [out_channel, kernel_size, stride, padding_size, activation]
             args = [out_channel, 3, 1, None, activation]
         elif block == "InvertedResidualv2":
-            c = trial.suggest_int(
-                f"m{i+1}/v2_c", low=input_min, high=input_max, step=16
-            )
+            c = trial.suggest_int(f"m{i+1}/v2_c", low=input_min, high=input_max, step=16)
             t = trial.suggest_int(f"m{i+1}/v2_t", low=1, high=4)
             args = [c, t, m_stride]
         elif block == "InvertedResidualv3":
             kernel = trial.suggest_int(f"m{i+1}/kernel_size", low=3, high=5, step=2)
-            t = round(
-                trial.suggest_float(f"m{i+1}/v3_t", low=1.0, high=6.0, step=0.1), 1
-            )
+            t = round(trial.suggest_float(f"m{i+1}/v3_t", low=1.0, high=6.0, step=0.1), 1)
             c = trial.suggest_int(f"m{i+1}/v3_c", low=input_min, high=input_max, step=8)
             se = trial.suggest_categorical(f"m{i+1}/v3_se", [0, 1])
             hs = trial.suggest_categorical(f"m{i+1}/v3_hs", [0, 1])
@@ -103,9 +93,7 @@ def search_model(trial: optuna.trial.Trial) -> List[Any]:
             args = [kernel, t, c, se, hs, m_stride]
         elif block == "MBConv":
             kernel = trial.suggest_int(f"m{i+1}/kernel_size", low=3, high=5, step=2)
-            c = trial.suggest_int(
-                f"m{i+1}/efb0_c", low=input_min, high=input_max, step=8
-            )
+            c = trial.suggest_int(f"m{i+1}/efb0_c", low=input_min, high=input_max, step=8)
             # args=[_,c]
 
         in_features = out_channel
@@ -198,9 +186,7 @@ def objective(trial: optuna.trial.Trial, device, fp16) -> Tuple[float, int, floa
         pct_start=0.05,
     )
 
-    scaler = (
-        torch.cuda.amp.GradScaler() if fp16 and device != torch.device("cpu") else None
-    )
+    scaler = torch.cuda.amp.GradScaler() if fp16 and device != torch.device("cpu") else None
 
     trainer = TorchTrainer(
         model,
@@ -273,12 +259,8 @@ def tune(gpu_id, storage: str = None, fp16: bool = False):
         load_if_exists=True,
     )
     study.optimize(lambda trial: objective(trial, device, fp16), n_trials=10)
-    pruned_trials = [
-        t for t in study.trials if t.state == optuna.trial.TrialState.PRUNED
-    ]
-    complete_trials = [
-        t for t in study.trials if t.state == optuna.trial.TrialState.COMPLETE
-    ]
+    pruned_trials = [t for t in study.trials if t.state == optuna.trial.TrialState.PRUNED]
+    complete_trials = [t for t in study.trials if t.state == optuna.trial.TrialState.COMPLETE]
 
     print("Study statistics: ")
     print("  Number of finished trials: ", len(study.trials))
@@ -303,9 +285,7 @@ def tune(gpu_id, storage: str = None, fp16: bool = False):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Optuna tuner.")
     parser.add_argument("--gpu", default=0, type=int, help="GPU id to use")
-    parser.add_argument(
-        "--storage", default="", type=str, help="Optuna database storage path."
-    )
+    parser.add_argument("--storage", default="", type=str, help="Optuna database storage path.")
     parser.add_argument("--fp16", default=False, type=bool, help="train to fp16")
     args = parser.parse_args()
     tune(args.gpu, storage=args.storage if args.storage != "" else None, fp16=args.fp16)

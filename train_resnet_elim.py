@@ -98,9 +98,7 @@ def train(
         device=device,
     )
     # Amp loss scaler
-    scaler = (
-        torch.cuda.amp.GradScaler() if fp16 and device != torch.device("cpu") else None
-    )
+    scaler = torch.cuda.amp.GradScaler() if fp16 and device != torch.device("cpu") else None
 
     # Create trainer
     trainer = TorchTrainer(
@@ -131,25 +129,19 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Train model.")
 
-    parser.add_argument(
-        "--data", default="configs/data/taco.yaml", type=str, help="data config"
-    )
+    parser.add_argument("--data", default="./data/taco.yaml", type=str, help="data config")
     args = parser.parse_args()
 
     data_config = read_yaml(cfg=args.data)
-    data_config["DATA_PATH"] = os.environ.get(
-        "SM_CHANNEL_TRAIN", data_config["DATA_PATH"]
-    )
+    data_config["DATA_PATH"] = os.environ.get("SM_CHANNEL_TRAIN", data_config["DATA_PATH"])
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     log_dir = os.environ.get("SM_MODEL_DIR", os.path.join("teacher", "latest"))
-    if os.path.exists(log_dir) and DEBUG == False:
+    if os.path.exists(log_dir):
         # find *.pt file in log_dir
         previous_model_path = glob.glob(os.path.join(log_dir, "*.pt"))[0]
         modified = datetime.fromtimestamp(os.path.getmtime(previous_model_path))
-        new_log_dir = (
-            os.path.dirname(log_dir) + "/" + modified.strftime("%Y-%m-%d_%H-%M-%S")
-        )
+        new_log_dir = os.path.dirname(log_dir) + "/" + modified.strftime("%Y-%m-%d_%H-%M-%S")
         os.rename(log_dir, new_log_dir)
 
     os.makedirs(log_dir, exist_ok=True)
