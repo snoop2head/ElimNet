@@ -80,6 +80,7 @@ class InvertedResidualv3(nn.Module):
 
 
 class SqueezeExcitation(nn.Module):
+    # Implemented as described at Figure 4 of the MobileNetV3 paper
     def __init__(self, input_channels: int, squeeze_factor: int = 4):
         super().__init__()
         squeeze_channels = make_divisible(input_channels // squeeze_factor, 8)
