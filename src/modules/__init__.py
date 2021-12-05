@@ -26,7 +26,15 @@ from src.modules.resnet18 import Resnet18, Resnet18Generator
 from src.modules.bottleneck import Bottleneck, BottleneckGenerator
 
 # efficientnet related modules
-from src.modules.mbconv import *
+from src.modules.mbconv import (
+    MBConv,
+    MBConvGenerator,
+    ConvBNReLU,
+    SwishImplementation,
+    Swish,
+    SqueezeExcitation,
+)
+from src.modules.efficientnetb0 import EfficientNetB0, EfficientNetB0Generator
 
 
 __all__ = [
@@ -68,4 +76,6 @@ __all__ = [
     "Swish",
     "SqueezeExcitation",
     "MBConvGenerator",
+    "EfficientNetB0",
+    "EfficientNetB0Generator",
 ]
