@@ -6,8 +6,6 @@ from torch.nn import functional as F
 from typing import Any, Callable, Dict, List, Optional, Sequence
 
 from torchvision import models
-from torchvision.models.utils import load_state_dict_from_url
-from torchvision.models.mobilenetv2 import _make_divisible, ConvBNActivation
 from torchvision.models.mobilenetv3 import (
     SqueezeExcitation,
     InvertedResidualConfig,

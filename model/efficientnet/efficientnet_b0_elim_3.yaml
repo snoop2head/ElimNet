@@ -1,47 +1,13 @@
-backbone:
-- - 1
-  - Conv
-  - - 32
-    - 3
-    - 2
-- - 1
-  - MBConv
-  - - 1
-    - 16
-    - 1
-    - 3
-- - 2
-  - MBConv
-  - - 6
-    - 24
-    - 2
-    - 3
-- - 2
-  - MBConv
-  - - 6
-    - 40
-    - 2
-    - 5
-- - 3
-  - MBConv
-  - - 6
-    - 80
-    - 2
-    - 3
-- - 1
-  - Conv
-  - - 480
-    - 1
-    - 1
-- - 1
-  - GlobalAvgPool
-  - []
-- - 1
-  - Flatten
-  - []
-- - 1
-  - Linear
-  - - 6
-depth_multiple: 1.0
 input_channel: 3
+
+depth_multiple: 1.0
 width_multiple: 1.0
+
+backbone: [
+    # [repeat, module, args]
+    [1, EfficientNetB0, [112, True]],
+    [1, Conv, [480, 1, 1]], # Question: is 480 output channel?
+    [1, GlobalAvgPool, []],
+    [1, Flatten, []],
+    [1, Linear, [6]],
+  ]
