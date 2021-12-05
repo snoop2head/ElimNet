@@ -91,9 +91,7 @@ class ModelParser:
 
         in_channel = self.in_channel
         for i, (repeat, module, args) in enumerate(self.model_cfg):  # type: ignore
-            repeat = (
-                max(round(repeat * self.depth_multiply), 1) if repeat > 1 else repeat
-            )
+            repeat = max(round(repeat * self.depth_multiply), 1) if repeat > 1 else repeat
 
             module_generator = ModuleGenerator(module, in_channel)(  # type: ignore
                 *args,
