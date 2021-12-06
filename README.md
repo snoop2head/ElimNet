@@ -23,10 +23,10 @@ git clone https://github.com/snoop2head/elimnet
 
 ```shell
 # finetune on the dataset with pretrained model
-python train.py --model ./model/efficientnet_b0.yaml
+python train.py --model ./model/efficientnet/efficientnet_b0.yaml
 
 # finetune on the dataset with ElimNet
-python train.py --model ./model/efficientnet_b0_elim_3.yaml
+python train.py --model ./model/efficientnet/efficientnet_b0_elim_3.yaml
 ```
 
 ### Inference
