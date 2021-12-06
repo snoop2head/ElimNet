@@ -6,7 +6,7 @@ width_multiple: 1.0
 backbone: [
     # [repeat, module, args]
     [1, EfficientNetB0, [192, True]],
-    [1, Conv, [672, 1, 1]], # 6 x 112
+    [1, Conv, [672, 1, 1]], # 6 x 112 = 672
     [1, GlobalAvgPool, []],
     [1, Flatten, []],
     [1, Linear, [6]],
