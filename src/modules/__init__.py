@@ -36,6 +36,8 @@ from src.modules.mbconv import (
 )
 from src.modules.efficientnetb0 import EfficientNetB0, EfficientNetB0Generator
 
+# vgg related modules
+from src.modules.vgg11 import VGG11, VGG11Generator
 
 __all__ = [
     # common modules
@@ -78,4 +80,7 @@ __all__ = [
     "MBConvGenerator",
     "EfficientNetB0",
     "EfficientNetB0Generator",
+    # VGG related modules
+    "VGG11",
+    "VGG11Generator",
 ]
