@@ -1,0 +1,15 @@
+input_channel: 3
+
+depth_multiple: 1.0
+width_multiple: 1.0
+
+backbone:
+  # [Repeat, module, args(for ELimNet/src/model.py)]
+  [
+    # Resnet18 argument: [out_channel, pretrained]
+    # Linear argument: [out_channel]
+    [1, VGG11, [256, True]],
+    [1, GlobalAvgPool, []],
+    [1, Flatten, []],
+    [1, Linear, [6]],
+  ]
