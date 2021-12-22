@@ -6,7 +6,7 @@ model_weights
 /logs
 /results
 *.pptx
-*.pdf
+# *.pdf
 exp/
 teacher
 
