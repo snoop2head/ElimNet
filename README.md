@@ -1,6 +1,10 @@
 # ELimNet
 
+[![Wandb Log](https://raw.githubusercontent.com/wandb/assets/main/wandb-github-badge-gradient.svg)](https://wandb.ai/elimnet/ElimNet)
+
 **ELimNet: Eliminating Layers in a Neural Network Pretrained with Large Dataset for Downstream Task**
+
+[📂 Please refer to README.pdf for further information.](https://github.com/snoop2head/ELimNet/blob/main/README.pdf)
 
 - Removed top layers from pretrained EfficientNetB0 and ResNet18 to construct lightweight CNN model with less than 1M #params.
 - Assessed on [Trash Annotations in Context(TACO) Dataset](http://tacodataset.org/) sampled for 6 classes with 20,851 images.
