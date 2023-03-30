@@ -1,14 +1,17 @@
-# ELimNet
+# ElimNet
 
 [![Wandb Log](https://raw.githubusercontent.com/wandb/assets/main/wandb-github-badge-gradient.svg)](https://wandb.ai/elimnet/ElimNet)
 
-**ELimNet: Eliminating Layers in a Neural Network Pretrained with Large Dataset for Downstream Task**
+**ElimNet: Eliminating Layers in a Neural Network Pretrained with Large Dataset for Downstream Task**
 
 [📂 Please refer to README.pdf for further information.](https://github.com/snoop2head/ELimNet/blob/main/README.pdf)
 
 - Removed top layers from pretrained EfficientNetB0 and ResNet18 to construct lightweight CNN model with less than 1M #params.
 - Assessed on [Trash Annotations in Context(TACO) Dataset](http://tacodataset.org/) sampled for 6 classes with 20,851 images.
 - Compared performance with lightweight models generated with Optuna's Neural Architecture Search(NAS) constituted with same convolutional blocks.
+- **It is speculated that such elimination method will work on neural networks with residual connections**, according to the paper of [Veit et al(2016)](https://arxiv.org/pdf/1605.06431.pdf) where it shows residual networks behave like ensembles of networks. Refer to Figure 5 attached below, where error when deleting layers linearly increase rather than exponentially increasing. 
+
+![image-20230330172447858](./asset/README/image-20230330172447858.png)
 
 ## Quickstart
 
